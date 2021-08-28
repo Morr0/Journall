@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react"
-import { List, ListItem, ListIcon, Button, Spinner, Textarea } from "@chakra-ui/react"
-import {getEntries, addEntry, Entry} from '../api/entries';
+import { List, ListItem, Button, Spinner } from "@chakra-ui/react"
+import {getEntries, addEntry} from '../api/entries';
+import AddEntry from "../components/AddEntries";
 
 const EntriesPage = () => {
     const [loading, setLoading] = useState(true);
@@ -14,17 +15,26 @@ const EntriesPage = () => {
 
     if (loading) return <Spinner thickness="4px" />
 
-    const addClicked = () => {
+    const addEntryClicked = (content) => {
+        const entry = addEntry(content);
 
+        setCurrentEntries((x) => ([
+            ...x,
+            entry
+        ]));
+        setAddingEntry(false);
     };
 
     return (
         <div>
             <div>
-                <Button onClick={addClicked} isDisabled={addingEntry}>
+                <Button onClick={() => setAddingEntry(true)} isDisabled={addingEntry}>
                     Add Entry
                 </Button>
             </div>
+            {addingEntry && (
+                <AddEntry add={addEntryClicked} cancel={() => setAddingEntry(false)} />
+            )}
             <div>
                 <List>
                     {currentEntries.map((entry) => (

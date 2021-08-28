@@ -18,7 +18,7 @@ function getEntries() : Entry[] {
     return _entries;
 };
 
-function addEntry(content: String) : String {
+function addEntry(content: String) : Entry {
     const entry: Entry = {
         id: uuid(),
         content: content,
@@ -28,7 +28,7 @@ function addEntry(content: String) : String {
 
     _entries.push(entry);
 
-    return entry.id;
+    return entry;
 }
 
 export {
